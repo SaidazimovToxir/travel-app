@@ -40,42 +40,13 @@ class Homepage extends StatelessWidget {
               crossAxisCount: 2,
               crossAxisSpacing: 15,
               mainAxisSpacing: 15,
-              mainAxisExtent: 250,
+              mainAxisExtent: 300,
             ),
             itemBuilder: (context, index) {
               final travel = Product.fromJson(data[index]);
               return GestureDetector(
-                onLongPress: () {
-                  _showEditLocationDialog(context, travel);
-                },
-                onDoubleTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        content: const Text("Are you sure to delete it"),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Text("Cancel"),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              ProductService().deleteLocation(travel.id);
-                              Navigator.pop(context);
-                            },
-                            child: const Text(
-                              "Delete",
-                              style: TextStyle(color: Colors.red),
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
+                onLongPress: () {},
+                onDoubleTap: () {},
                 child: Card(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,6 +80,55 @@ class Homepage extends StatelessWidget {
                           ],
                         ),
                       ),
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              _showEditLocationDialog(context, travel);
+                            },
+                            icon: const Icon(
+                              Icons.edit,
+                              color: Colors.teal,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    content: const Text(
+                                        "Rostan o'chirmoqchimisiz ?"),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("Cancel"),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          ProductService()
+                                              .deleteLocation(travel.id);
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text(
+                                          "Delete",
+                                          style: TextStyle(color: Colors.red),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            icon: const Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                            ),
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ),
@@ -159,21 +179,44 @@ class Homepage extends StatelessWidget {
                   Row(
                     children: [
                       TextButton(
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.teal,
+                        ),
                         onPressed: () => pickImage(ImageSource.camera),
                         child: const Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(Icons.camera),
-                            Text('Camera'),
+                            Icon(
+                              Icons.camera,
+                              color: Colors.white,
+                            ),
+                            Text(
+                              'Camera',
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ],
                         ),
                       ),
                       const SizedBox(width: 10),
                       TextButton(
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.teal,
+                        ),
                         onPressed: () => pickImage(ImageSource.gallery),
                         child: const Row(
                           mainAxisSize: MainAxisSize.min,
-                          children: [Icon(Icons.image), Text('Gallery')],
+                          children: [
+                            Icon(
+                              Icons.image,
+                              color: Colors.white,
+                            ),
+                            Text(
+                              'Gallery',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            )
+                          ],
                         ),
                       ),
                     ],
@@ -184,10 +227,17 @@ class Homepage extends StatelessWidget {
               actionsAlignment: MainAxisAlignment.spaceBetween,
               actions: [
                 TextButton(
+                  style: TextButton.styleFrom(
+                      backgroundColor: Colors.teal.shade300),
                   onPressed: () => Navigator.of(context).pop(),
-                  child: const Text('Cancel'),
+                  child: const Text(
+                    'Cancel',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
                 FilledButton(
+                  style: FilledButton.styleFrom(
+                      backgroundColor: Colors.teal.shade300),
                   onPressed: () async {
                     if (_titleController.text.isNotEmpty &&
                         _pickedImage != null) {

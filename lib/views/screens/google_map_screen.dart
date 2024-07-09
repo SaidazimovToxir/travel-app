@@ -19,6 +19,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   Set<Polyline> polylines = {};
   List<LatLng> myPositions = [];
   TravelMode travelMode = TravelMode.driving;
+  MapType mapType = MapType.normal;
   final TextEditingController _textEditingController = TextEditingController();
 
   void _onMapCreated(GoogleMapController controller) {
@@ -95,6 +96,10 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
     });
   }
 
+  void _changeMapType(MapType type) {
+    mapType = type;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,7 +114,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
               zoom: 16.0,
             ),
             onCameraMove: onCameraMove,
-            mapType: MapType.hybrid,
+            mapType: mapType,
             myLocationEnabled: true,
             myLocationButtonEnabled: false,
             markers: {
@@ -246,6 +251,43 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
                   heroTag: "transit",
                   onPressed: () => _changeTravelMode(TravelMode.transit),
                   child: const Icon(Icons.directions_transit),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            top: 100,
+            left: 16,
+            child: Column(
+              children: [
+                FloatingActionButton(
+                  heroTag: "walking",
+                  onPressed: () {
+                    setState(() {
+                      mapType = MapType.hybrid;
+                    });
+                  },
+                  child: const Icon(Icons.layers),
+                ),
+                const SizedBox(height: 8),
+                FloatingActionButton(
+                  heroTag: "driving",
+                  onPressed: () {
+                    setState(() {
+                      mapType = MapType.satellite;
+                    });
+                  },
+                  child: const Icon(Icons.satellite),
+                ),
+                const SizedBox(height: 8),
+                FloatingActionButton(
+                  heroTag: "bicycling",
+                  onPressed: () {
+                    setState(() {
+                      mapType = MapType.terrain;
+                    });
+                  },
+                  child: const Icon(Icons.terrain),
                 ),
               ],
             ),
